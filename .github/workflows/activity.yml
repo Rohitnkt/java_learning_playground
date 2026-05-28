@@ -1,27 +1,35 @@
-name: Daily Commit
+name: Daily Java Learning Commit
 
 on:
   schedule:
     - cron: "0 18 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   commit:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v5
 
-      - name: Update activity
-        run: echo "$(date)" >> activity.txt
-
-      - name: Commit changes
+      - name: Configure Git
         run: |
           git config --global user.name "Rohitnkt"
           git config --global user.email "panditrohitnaokothi@gmail.com"
 
+      - name: Update Daily Learning Log
+        run: |
+          mkdir -p notes
+          echo "Updated Java learning progress on $(date)" >> notes/daily-log.md
+
+      - name: Commit and Push
+        run: |
           git add .
-          git commit -m "daily activity update" || echo "No changes"
+
+          git diff --cached --quiet || git commit -m "docs: update Java learning notes"
 
           git push
