@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 app.get('/', (req, res) => {
-  res.send('welcome to my server');
+  res.send(' I am leaning how to operate git and github');
 });
 
 app.listen(port, () => {
